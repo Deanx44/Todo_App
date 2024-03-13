@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Style -->
+    <style>
+        body {
+            background: linear-gradient(220deg, #2980b9, #8e44ad);
+            color: black font-family: 'Candara'
+        }
+        
+        .row {
+            margin-top: 10px;
+        }
+        
+        .alert {
+            background-color: #ec8e86;
+            color: #fff;
+            border: 1px solid #3c0fe0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: #f5d6f7;
+            /* White background */
+            margin-bottom: 20px;
+            border-radius: 55px;
+            padding: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: 1px solid #fbfafa;
+            /* Red border */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            background: #c67bc8;
+            /* Light yellow background on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.25);
+        }
+        /* Add this if you want to style the title inside the card */
+        
+        .card center b {
+            color: black;
+            /* Red color for the title */
+        }
+        /* Add this if you want to style the hr inside the card */
+        
+        .card hr {
+            border-top: 1px solid #181818;
+            /* Red border for hr */
+        }
+        
+        .submit_form {
+            text-align: center;
+            padding: 10px;
+            background: #bf95ec;
+            /* Corrected color code */
+            border-radius: 45px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(0, 0, 0, 0.36);
+        }
+        
+        h1 {
+            color: #000;
+        }
+        
+        hr {
+            border-top: 2px solid #fff;
+            margin: 10px 0;
+        }
+        
+        .btn-primary {
+            background-color: #f38989;
+            color: #000;
+            border-radius: 8px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+</head>
+
+<body class="container-fluid">
+
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-info">
+        <strong>{{ message }}</strong>
+    </div>
+    {% endfor %} {% endif %}
+
+    <center class="row">
+        <h1><b>Todo List</b></h1>
+        <hr />
+    </center>
+
+    <div class="row">
+        <div class="col-md-8">
+            {% for i in list %}
+            <div class="card">
+                <center><b>{{ i.title }}</b></center>
+                <hr /> {{ i.date }}
+                <hr /> {{ i.details }}
+                <br />
+                <br />
+                <form action="/del/{{ i.id }}" method="POST" style="padding-right: 5%; padding-bottom: 3%;">
+                    {% csrf_token %}
+                    <button value="Remove" type="submit" class="btn btn-primary" style="float: right;">
+                            <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="submit_form">
+                <form method="POST">
+                    {% csrf_token %} {{ forms }}
+                    <center>
+                        <input type="submit" class="btn btn-default" value="Submit" />
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
